@@ -1,0 +1,30 @@
+title: "turu.in - Tech oriented thoughts in the aether"
+author: "Ilkka Turunen"
+description: "Tech oriented thoughts of the author cast in the aether. Contains my own opinions which may not reflect my employers"
+subheading: "Tech oriented thoughts of the author cast in the aether. Contains my own opinions which may not reflect my employers"
+more: "read more"
+url: "http://turu.in"
+# baseurl: "/contrast" # comment out if in root directory
+
+comments:
+    disqus: "turuin"
+#    isso: "comments.mysite.org"
+
+style:
+#    body: "whitesmoke"
+    padding: 33%
+    anchor: "#46f"
+    serif-heading: true
+    nav: "#181818"
+#    headline: "#06f"
+    description: "white"
+    article:
+        odd: "#ffffff"
+        even: "#222222"
+
+links:
+  - github: "https://github.com/ile2"
+  - twitter: "https://twitter.com/ilkkaturunen/"
+
+excerpt_separator: "\n\n\n"
+defaults: [{scope: {path: ""}, values: {layout: "default"}}, {scope: {path: "", type: "posts"}, values: {comments: true}}]
