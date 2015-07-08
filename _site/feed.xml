@@ -5,9 +5,128 @@
     <description>Tech oriented thoughts of the author cast in the aether. Contains my own opinions which may not reflect my employers</description>
     <link>http://turu.in</link>
     <atom:link href="http://turu.infeed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 07 Jul 2015 18:20:08 +0100</pubDate>
-    <lastBuildDate>Tue, 07 Jul 2015 18:20:08 +0100</lastBuildDate>
+    <pubDate>Wed, 08 Jul 2015 12:11:08 +0100</pubDate>
+    <lastBuildDate>Wed, 08 Jul 2015 12:11:08 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Host your own npm packages in Nexus</title>
+        <description>&lt;p&gt;&lt;strong&gt;Hello there&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;As you may notice this is the first post of hopefully many to come on this freshly established blog. &lt;/p&gt;
+
+&lt;p&gt;Without further introduction, let’s get things rolling by setting the scene. I’ve recently joined the ranks of Sonatype, a company that helps understand and manage Software Supply Chains. I was excited to do so, as I’ve been using nexus for quite some time.&lt;/p&gt;
+
+&lt;p&gt;In my role of a Solutions Architect, I’m constantly meeting with new clients to illustrate how Nexus can solve their problems. During these meetings I often encounter very insightful questions about features and functionality. I thought it beneficial to keep track of these questions on this site, and to answer them in more detail.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Nexus &amp;amp; NPM&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I’d like to kickstart this with a simple, and hopefully useful little tutorial about how to start hosting your npm packages with the Nexus repository. &lt;/p&gt;
+
+&lt;p&gt;I can already imagine the reaction:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“Nah brah, I’ve got heroku”&lt;/p&gt;
+
+  &lt;p&gt;-&lt;em&gt;every artisanal code crafter ever&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Fair, if you just want to push, test and deliver your singleton application, this is a good approach. &lt;/p&gt;
+
+&lt;p&gt;However, if you do anything more advanced, say a set of immutable microservices with interdependent and coupled APIs, there are a few advantages to using an Artifact repository. &lt;strong&gt;&lt;em&gt;Read my post about this here.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Consistent deployments&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;One of the issues in relying on services outside your own controls, such as npm, is that the service providers are in no obligation to either guarantee the uptime of the service ( they’re usually run entirely on good will ) or the consistency of the served packages ( if the author decides after two days of publishing a package to add a small patch but not increment the version number. You catch my drift ). &lt;/p&gt;
+
+&lt;p&gt;Hosting all of the packages, proprietary and public, can help alleviate this issue. By retaining a copy of every package in an artifact repository&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Consistent testing&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A cool side effect of being able to do consistent deployments is that you can now run a on-demand copy of your entire service and expose it to automated tests, not only on single components, but also on the holistic system scale. This’ll help ensure your services talk to one another without hassle.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Enterprise restrictions&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;From an enteprise point of view it is rarely desireable to allow any more connections to the outside world than is absolutely necessary. Sometimes complex firewalling strategies can even stop this altogether.&lt;/p&gt;
+
+&lt;p&gt;Also sometimes things like security &amp;amp; standards compliance can put restrictions on these connections.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Audit&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A curse word for many a developer. Sometimes due to compliance it is necessary to retain or limit the packages used in your system.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Knowledge sharing&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A positive in hosting packages is that if you have multiple developer teams, you can share patterns and libraries that have been found to work well across other teams. By maintaining a standard toolset and actively encouraging the usage of it, we can ensure that developers understand what happens in other teams’ products with much less effort.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Enough talk, let’s do this!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, there’s basically two things we can do: a hosted repository and a proxied repository. The proxy repository is used to make sure the components you download are consistent and the hosted repository will be used to publish your own components.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Overall architecture&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The two come together to form an image like this:
+&lt;img src=&quot;/assets/images/proxy-repos.png&quot; alt=&quot;My helpful screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;1. Setting up a proxy repository&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Proxy repositories are used to cache components you download from NPM. Handy when you want to retain copies and be independent from any connectivity issues or sure of consistency of the downloaded artifacts.&lt;/p&gt;
+
+&lt;p&gt;Choose https://registry.npmjs.org&lt;/p&gt;
+
+&lt;p&gt;Neque porro &lt;em&gt;quisquam&lt;/em&gt; est, qui &lt;strong&gt;dolorem&lt;/strong&gt; ipsum, quia &lt;strong&gt;&lt;em&gt;dolor&lt;/em&gt;&lt;/strong&gt; sit, amet, &lt;a href=&quot;http://cjdns.info/&quot;&gt;consectetur&lt;/a&gt;, adipisci velit.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;lorem&lt;/li&gt;
+  &lt;li&gt;ipsum&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;dolor&lt;/li&gt;
+  &lt;li&gt;sit&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;First Header&lt;/th&gt;
+      &lt;th&gt;Second Header&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Table Cell&lt;/td&gt;
+      &lt;td&gt;Table Cell&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Blockquote&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;They who can give up essential liberty to obtain a little temporary safety, deserve neither liberty nor safety.&lt;/p&gt;
+
+  &lt;p&gt;&lt;em&gt;Benjamin Franklin&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Code&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;asyncEnabled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vAdmin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;txid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Allocator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requestAlloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Admin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;admin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Identity_check&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Admin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vAdmin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int64_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enabled&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;admin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asyncEnabled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Dict&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dict_CONST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String_CONST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;asyncEnabled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int_OBJ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enabled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Admin_sendMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;txid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;admin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+        <pubDate>Tue, 07 Jul 2015 19:37:00 +0100</pubDate>
+        <link>http://turu.in/nexus/2015/07/07/obligatory-first-post.html</link>
+        <guid isPermaLink="true">http://turu.in/nexus/2015/07/07/obligatory-first-post.html</guid>
+        
+        
+        <category>nexus</category>
+        
+      </item>
     
       <item>
         <title>Example 2</title>

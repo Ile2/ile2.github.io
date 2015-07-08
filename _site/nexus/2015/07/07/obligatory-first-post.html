@@ -6,14 +6,14 @@
     <meta charset="utf-8">
     
     <meta name="description" content="Tech oriented thoughts of the author cast in the aether. Contains my own opinions which may not reflect my employers">
-    <title>turu.in - Tech oriented thoughts in the aether</title>
-    <link rel="canonical" href="http://turu.in/index.html">
+    <title> Host your own npm packages in Nexus › turu.in - Tech oriented thoughts in the aether</title>
+    <link rel="canonical" href="http://turu.in/nexus/2015/07/07/obligatory-first-post.html">
     <link href="/main.css" rel="stylesheet" type="text/css">
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,200italic,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Gentium+Basic:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
     <link rel="alternate" type="application/rss+xml" title="turu.in - Tech oriented thoughts in the aether &raquo; Feed" href="/feed.xml">
-    
+    <script src="//turuin.disqus.com/embed.js" async></script>
     
   </head>
   <body>
@@ -27,7 +27,6 @@
     </header>
     
     <div>Tech oriented thoughts of the author cast in the aether. Contains my own opinions which may not reflect my employers</div>
-    
     <article>
       <header>
         <h2><a href="/nexus/2015/07/07/obligatory-first-post.html">Host your own npm packages in Nexus</a></h2>
@@ -78,47 +77,24 @@
 
 <p>A curse word for many a developer. Sometimes due to compliance it is necessary to retain or limit the packages used in your system.</p>
 
+<p><strong><em>Knowledge sharing</em></strong></p>
 
-      </div>
-      <footer>
-        <p><a href="/nexus/2015/07/07/obligatory-first-post.html">read more &raquo;</a></p>
-      </footer>
-    </article>
-    
-    <article>
-      <header>
-        <h2><a href="/example/2014/09/10/example-2.html">Example 2</a></h2>
-        <p><time datetime="2014-09-10T23:37:00+01:00">Sep 10, 2014</time> • example</p>
-      </header>
-      <div>
-<p><strong>Basic</strong></p>
+<p>A positive in hosting packages is that if you have multiple developer teams, you can share patterns and libraries that have been found to work well across other teams. By maintaining a standard toolset and actively encouraging the usage of it, we can ensure that developers understand what happens in other teams’ products with much less effort.</p>
 
-<p>Neque porro <em>quisquam</em> est, qui <strong>dolorem</strong> ipsum, quia <strong><em>dolor</em></strong> sit, amet, <a href="http://cjdns.info/">consectetur</a>, adipisci velit.</p>
+<p><strong>Enough talk, let’s do this!</strong></p>
 
-<ul>
-  <li>lorem</li>
-  <li>ipsum</li>
-</ul>
+<p>Ok, there’s basically two things we can do: a hosted repository and a proxied repository. The proxy repository is used to make sure the components you download are consistent and the hosted repository will be used to publish your own components.</p>
 
-<ol>
-  <li>dolor</li>
-  <li>sit</li>
-</ol>
+<p><em>Overall architecture</em></p>
 
+<p>The two come together to form an image like this:
+<img src="/assets/images/proxy-repos.png" alt="My helpful screenshot" /></p>
 
-      </div>
-      <footer>
-        <p><a href="/example/2014/09/10/example-2.html">read more &raquo;</a></p>
-      </footer>
-    </article>
-    
-    <article>
-      <header>
-        <h2><a href="/example/2014/09/10/example.html">Example</a></h2>
-        <p><time datetime="2014-09-10T23:37:00+01:00">Sep 10, 2014</time> • example</p>
-      </header>
-      <div>
-<p><strong>Basic</strong></p>
+<p><em>1. Setting up a proxy repository</em></p>
+
+<p>Proxy repositories are used to cache components you download from NPM. Handy when you want to retain copies and be independent from any connectivity issues or sure of consistency of the downloaded artifacts.</p>
+
+<p>Choose https://registry.npmjs.org</p>
 
 <p>Neque porro <em>quisquam</em> est, qui <strong>dolorem</strong> ipsum, quia <strong><em>dolor</em></strong> sit, amet, <a href="http://cjdns.info/">consectetur</a>, adipisci velit.</p>
 
@@ -165,13 +141,13 @@
     <span class="n">Admin_sendMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">,</span> <span class="n">txid</span><span class="p">,</span> <span class="n">admin</span><span class="p">);</span>
 <span class="p">}</span></code></pre></div>
 
-
       </div>
-      <footer>
-        <p><a href="/example/2014/09/10/example.html">read more &raquo;</a></p>
-      </footer>
+      
+      
+      <div id="disqus_thread"></div>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
     </article>
-    
 
     <footer>
       <span><a href="http://turu.in">Ilkka Turunen</a></span>
