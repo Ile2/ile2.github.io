@@ -121,9 +121,21 @@ OR editing the package.json:
 
 {% endhighlight %}
 
-** Aaaand you're done **
+**Aaaand you're done**
 
-Wicked work mate! You're done and your new npm repo is in action. You can now host and download components from the same URI. You can also use all the latest tips and trics in npms books, like namespacing.
+Wicked work my friend! You're done and your new npm repo is in action. You can now host and download components from the same URI. You can also use all the latest tips and trics in npms books, like namespacing.
+
+**Extra Credit: Group both repositories to a single URI**
+
+The final trick in the basic repo management book is a handy one. Normally, to access the packages hosted in your hosted registry you'd have to change the configuration of the .npmrc registry value like we did in Step 2 to point to the hosted repository or specify locations for each package in your package.json. This obviously is a lot of hassle and work to maintain, so Nexus includes a handy way of grouping both the hosted and proxy repository together via a **Group Repository**. This group repo will allow you to download contents of all repositories belonging in said group with accessing only one URL. Pretty cool, eh?
+
+To do this, we'll create a new repo as before, but this time choose npm (proxy). Again, create a memorable name and id, like npm-group. The big step here is deciding which repositories should be included in your group - this time let's just all bunch them together. In real life situations and larger teams you might consider what groups to establish based on access control etc.
+
+
+***Screenshot***
+
+Now that the group is created, we only need to update our .npmrc to point to the group - as we did before. Fetch the URI from the right hand side, and add it to the file... and you're done. After this you can now download packages from all repositories in the group by default. Pretty wicked, eh?
+
 
 
 Neque porro *quisquam* est, qui **dolorem** ipsum, quia ***dolor*** sit, amet, [consectetur](http://cjdns.info/), adipisci velit.
