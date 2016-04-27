@@ -24,7 +24,7 @@ Fair, if you just want to push, test and deliver your singleton application, thi
 
 However, if you do anything more advanced, say a set of immutable microservices with interdependent and coupled APIs, there are a few advantages to using an Artifact repository. 
 
-First of all, I would like to point out having a artifact repository is now a widely-acknowledged part of a normal software supply chain ***Link to devops architectures presis 1 2***
+First of all, I would like to point out having a artifact repository is now a widely-acknowledged part of a normal software supply chain [Devops Reference Architectures #1](www.slideshare.net/SonatypeCorp/nexus-and-continuous-delivery) [Devops Reference architectures #2](www.slideshare.net/SonatypeCorp/devops-and-continuous-delivery-reference-architectures).
 
 A key aspect of artifact repositories is to proxy, or cache, components you download from 3rd party sources, like npmjs.org. Instead of pointing your package.json directly at npmjs as is standard behaviour, you can configure npm to use a private repository instead. If the repository has a local copy of the package, it can be fetched directly from this local repository. If it does not exist, the artifact repository will automatically ingest new components from npmjs.org. 
 
@@ -42,8 +42,9 @@ The two come together to form an image like this:
 ![My helpful screenshot](/assets/images/proxy-repos.png)
 
 **Step 0: Install Nexus 3**
+
 You can grab the latest copy of Nexus 3 here:
-http://www.sonatype.com/get-nexus-sonatype
+[Download Nexus 3](http://www.sonatype.com/get-nexus-sonatype)
 
 **Step 1: Setting up a proxy repository**
 
@@ -101,7 +102,7 @@ Ok, we've downloaded some dependencies. Let's now create a hosted repository to 
 
 **Step 5: Publish your package**
 
-Publishing is easy, you can either just add your target URI directly to your npm publish command, or you can edit your package.json ***as per the Nexus 3 documentation***
+Publishing is easy, you can either just add your target URI directly to your npm publish command, or you can edit your package.json [as per the Nexus 3 documentation](https://books.sonatype.com/nexus-book/3.0/reference/npm.html#npm-private-registries)
 
 Direct parameter approach example:
 
@@ -130,7 +131,6 @@ Wicked work my friend! You're done and your new npm repo is in action. You can n
 The final trick in the basic repo management book is a handy one. Normally, to access the packages hosted in your hosted registry you'd have to change the configuration of the .npmrc registry value like we did in Step 2 to point to the hosted repository or specify locations for each package in your package.json. This obviously is a lot of hassle and work to maintain, so Nexus includes a handy way of grouping both the hosted and proxy repository together via a **Group Repository**. This group repo will allow you to download contents of all repositories belonging in said group with accessing only one URL. Pretty cool, eh?
 
 To do this, we'll create a new repo as before, but this time choose npm (proxy). Again, create a memorable name and id, like npm-group. The big step here is deciding which repositories should be included in your group - this time let's just all bunch them together. In real life situations and larger teams you might consider what groups to establish based on access control etc.
-
 
 ***Screenshot***
 
