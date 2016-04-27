@@ -136,36 +136,4 @@ To do this, we'll create a new repo as before, but this time choose npm (proxy).
 
 Now that the group is created, we only need to update our .npmrc to point to the group - as we did before. Fetch the URI from the right hand side, and add it to the file... and you're done. After this you can now download packages from all repositories in the group by default. Pretty wicked, eh?
 
-
-
-Neque porro *quisquam* est, qui **dolorem** ipsum, quia ***dolor*** sit, amet, [consectetur](http://cjdns.info/), adipisci velit.
-
- * lorem
- * ipsum
-
-1. dolor
-2. sit
-
-| First Header | Second Header |
-|--------------|---------------|
-| Table Cell   | Table Cell    |
-
-**Blockquote**
-
-> They who can give up essential liberty to obtain a little temporary safety, deserve neither liberty nor safety.
-> 
-> _Benjamin Franklin_
-
-**Code**
-
-{% highlight c %}
-
-static void asyncEnabled(Dict* args, void* vAdmin, String* txid, struct Allocator* requestAlloc)
-{
-    struct Admin* admin = Identity_check((struct Admin*) vAdmin);
-    int64_t enabled = admin->asyncEnabled;
-    Dict d = Dict_CONST(String_CONST("asyncEnabled"), Int_OBJ(enabled), NULL);
-    Admin_sendMessage(&d, txid, admin);
-}
-
-{% endhighlight %}
+That's it for this post. Happy developing!
